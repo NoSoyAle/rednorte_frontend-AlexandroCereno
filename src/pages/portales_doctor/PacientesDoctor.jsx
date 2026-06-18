@@ -3,7 +3,7 @@ import React,
 
 import Navbar from "./componentes/Navbar";
 import Footer from "./componentes/footer";
-import {obtenerDoctorPorRut} from "../../services/doctorService";
+import {obtenerDoctorPorRut} from "../../services/doctorServices";
 
 import {obtenerPacientesDoctor} from "../../services/citaService";
 

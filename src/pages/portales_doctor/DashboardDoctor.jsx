@@ -6,6 +6,7 @@ import Footer from "./componentes/footer";
 import CalendarioSemanal from "./componentes/lilcalendario";
 import ModalDisponibilidad from "./componentes/ModalDisponibilidad";
 import ModalAtencion from "./componentes/ModalCita";
+import ModalReasignar from "./componentes/ModalReasignar";
 import {obtenerCitasDoctor,actualizarCita,obtenerHorariosDisponibles} from "../../services/citaService";
 import {crearDisponibilidad} from "../../services/diponibilidadService";
 import { generarAtencionTxt }from "../../utils/GenerarAtencion";
@@ -20,6 +21,7 @@ export default function DoctorDashboard() {
     const [horariosLibres, setHorariosLibres] = useState([]);
     const [citaSeleccionada, setCitaSeleccionada] =
     useState(null);
+    const [citaReasignar, setCitaReasignar] = useState(null);
     const [atencion, setAtencion] =useState({
         motivo: "",
         licencia: false,
@@ -112,6 +114,24 @@ export default function DoctorDashboard() {
                     alert("No fue posible cancelar la cita");
             }
         };
+
+    const abrirReasignar = (cita) => {
+        setCitaReasignar(cita);
+        const modal = new bootstrap.Modal(
+            document.getElementById("modalReasignar")
+        );
+        modal.show();
+    };
+
+    const handleReasignar = async (id, citaActualizada) => {
+        try {
+            await actualizarCita(id, citaActualizada);
+            await cargarCitas();
+        } catch (error) {
+            console.error(error);
+            alert("No fue posible reasignar la cita");
+        }
+    };
 
     const CitaRealizada =
         async (cita) => {
@@ -241,12 +261,20 @@ export default function DoctorDashboard() {
                                 Iniciar Consulta
                             </button>
                             <button
-                                className="btn btn-danger flex-fill"
+                                className="btn btn-danger btn-sm"
                                 disabled={!proximaCita}
                                 onClick={() =>
                                     cancelarCita(
                                         proximaCita)}>
                                 Cancelar
+                            </button>
+                            <button
+                                className="btn btn-info btn-sm"
+                                disabled={!proximaCita}
+                                onClick={() =>
+                                    abrirReasignar(
+                                        proximaCita)}>
+                                Reasignar
                             </button>
                         </div>
 
@@ -316,6 +344,12 @@ export default function DoctorDashboard() {
                 atencion={atencion}
                 setAtencion={setAtencion}
                 finalizar={finalizarAtencion}
+            />
+
+            <ModalReasignar
+                cita={citaReasignar}
+                doctorId={doctorId}
+                onReasignar={handleReasignar}
             />
             <Footer />
         </>

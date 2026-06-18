@@ -1,7 +1,9 @@
 import React, {useEffect,useState} from "react";
+import * as bootstrap from "bootstrap";
 
 import Navbar from "./componentes/Navbar";
 import Footer from "./componentes/footer";
+import ModalReasignar from "./componentes/ModalReasignar";
 import {obtenerDoctorPorRut} from "../../services/doctorServices";
 import {obtenerCitasPorFecha,actualizarCita} from "../../services/citaService";
 
@@ -11,6 +13,7 @@ export default function AgendaDiaria() {
     const [fechaSeleccionada,setFechaSeleccionada] =useState(new Date());
 
     const [citas,setCitas] = useState([]);
+    const [citaReasignar, setCitaReasignar] = useState(null);
 
     useEffect(() => {if (doctorId) {cargarCitas();}}, [
         fechaSeleccionada,
@@ -50,8 +53,23 @@ export default function AgendaDiaria() {
         }
     };
 
+    const abrirReasignar = (cita) => {
+        setCitaReasignar(cita);
+        const modal = new bootstrap.Modal(
+            document.getElementById("modalReasignar")
+        );
+        modal.show();
+    };
 
-
+    const handleReasignar = async (id, citaActualizada) => {
+        try {
+            await actualizarCita(id, citaActualizada);
+            await cargarCitas();
+        } catch (error) {
+            console.error(error);
+            alert("No fue posible reasignar la cita");
+        }
+    };
 
     const cambiarDia = (dias) => {
 
@@ -235,10 +253,24 @@ export default function AgendaDiaria() {
                                         >
                                             Cancelar
                                         </button>
+
+                                        <button
+                                            className="btn btn-info btn-sm"
+                                            onClick={() =>
+                                                abrirReasignar(cita)
+                                            }
+                                        >
+                                            Reasignar
+                                        </button>
                                     </div>
                                 </div>))}
                 </div>
             </div>
+            <ModalReasignar
+                cita={citaReasignar}
+                doctorId={doctorId}
+                onReasignar={handleReasignar}
+            />
             <Footer />
         </>
     );
