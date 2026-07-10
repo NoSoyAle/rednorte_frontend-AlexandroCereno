@@ -1,13 +1,10 @@
-import axios from "axios";
-
-const API_URL =
-    "http://localhost:8085/api/doctor";
+import api from "./api";
 
 export const obtenerDoctores =
     async () => {
 
         const response =
-            await axios.get(API_URL);
+            await api.get("/api/doctor");
 
         return response.data;
     };
@@ -16,8 +13,8 @@ export const obtenerDoctoresPorEspecialidad =
     async (idEspecialidad) => {
 
         const response =
-            await axios.get(
-                `${API_URL}/especialidad/${idEspecialidad}`
+            await api.get(
+                `/api/doctor/especialidad/${idEspecialidad}`
             );
 
         return response.data;
@@ -27,8 +24,8 @@ export const obtenerDoctorPorRut =
     async (rut) => {
 
         const response =
-            await axios.get(
-                `${API_URL}/rut/${rut}`
+            await api.get(
+                `/api/doctor/rut/${rut}`
             );
 
         return response.data;

@@ -1,12 +1,11 @@
-import axios from "axios";
-const API_URL ="http://localhost:8085/api/disponibilidad";
+import api from "./api";
 
 export const crearDisponibilidad =
     async (disponibilidad) => {
 
         const response =
-            await axios.post(
-                API_URL,
+            await api.post(
+                "/api/disponibilidad",
                 disponibilidad
             );
 

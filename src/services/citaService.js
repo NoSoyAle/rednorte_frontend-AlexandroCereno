@@ -1,11 +1,9 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:8085/api/citas";
+import api from "./api";
 
 export const obtenerCitasDoctor = async (doctorId) => {
 
-    const response = await axios.get(
-        `${API_URL}/doctor/${doctorId}`
+    const response = await api.get(
+        `/api/citas/doctor/${doctorId}`
     );
 
     return response.data;
@@ -16,8 +14,8 @@ export const actualizarCita = async (
     cita
 ) => {
 
-    const response = await axios.put(
-        `${API_URL}/${id}`,
+    const response = await api.put(
+        `/api/citas/${id}`,
         cita
     );
 
@@ -28,8 +26,8 @@ export const crearCita = async (
     cita
 ) => {
 
-    const response = await axios.post(
-        API_URL,
+    const response = await api.post(
+        "/api/citas",
         cita
     );
 
@@ -40,8 +38,8 @@ export const eliminarCita = async (
     id
 ) => {
 
-    await axios.delete(
-        `${API_URL}/${id}`
+    await api.delete(
+        `/api/citas/${id}`
     );
 
 };
@@ -49,8 +47,8 @@ export const eliminarCita = async (
 export const obtenerCitasPorFecha =
 async (doctorId, fecha) => {
 
-    const response = await axios.get(
-        `${API_URL}/doctor/${doctorId}/fecha/${fecha}`
+    const response = await api.get(
+        `/api/citas/doctor/${doctorId}/fecha/${fecha}`
     );
 
     return response.data;
@@ -61,14 +59,14 @@ export const obtenerHorariosDisponibles = async (
     fecha
 ) => {
 
-    const response = await axios.get(
-        `${API_URL}/disponibles/${doctorId}/${fecha}`
+    const response = await api.get(
+        `/api/citas/disponibles/${doctorId}/${fecha}`
     );
 
     return response.data;
 };
 
 export const obtenerPacientesDoctor =async (doctorId) => {
-        const response =await axios.get(`${API_URL}/doctor/${doctorId}/pacientes`
+        const response =await api.get(`/api/citas/doctor/${doctorId}/pacientes`
             );return response.data;
     };
