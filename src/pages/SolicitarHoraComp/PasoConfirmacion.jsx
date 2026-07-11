@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import {crearCita}from "../../services/citaService";
 
@@ -8,6 +9,8 @@ export default function PasoConfirmacion({
     fecha,
     hora
 }) {
+
+    const navigate = useNavigate();
 
     const solicitarHora =
         async () => {
@@ -27,6 +30,7 @@ export default function PasoConfirmacion({
                 alert(
                     "Hora solicitada correctamente"
                 );
+                navigate("/");
             } catch (error) {
                 console.error(error);
                 alert(
@@ -153,6 +157,13 @@ export default function PasoConfirmacion({
 
                     Solicitar Hora
 
+                </button>
+
+                <button
+                    className="btn btn-outline-secondary w-100 mt-2"
+                    onClick={() => navigate("/")}
+                >
+                    Volver al inicio
                 </button>
 
             </div>

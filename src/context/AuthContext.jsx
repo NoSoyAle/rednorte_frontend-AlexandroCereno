@@ -8,8 +8,8 @@ export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(authService.isAuthenticated());
   const [loading] = useState(false);
 
-  const login = useCallback(async (nombre, password) => {
-    const result = await authService.login(nombre, password);
+  const login = useCallback(async (email, password) => {
+    const result = await authService.login(email, password);
     const userData = { nombre: result.nombre, role: result.role };
     setUser(userData);
     setIsAuthenticated(true);
