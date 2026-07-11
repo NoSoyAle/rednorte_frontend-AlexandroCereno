@@ -13,7 +13,7 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: { nombre: '', password: '' },
+    defaultValues: { email: '', password: '' },
   });
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function Login() {
     
     try {
       console.log('Llamando a login...');
-      const result = await login(data.nombre, data.password);
+      const result = await login(data.email, data.password);
       console.log('Login exitoso:', result);
       
       Swal.fire({
@@ -101,19 +101,19 @@ export default function Login() {
             <h5 className="fw-bold mb-4" style={{ color: '#14213d' }}>Iniciar sesión</h5>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3">
-                <label className="form-label fw-semibold small">Usuario</label>
+                <label className="form-label fw-semibold small">Email</label>
                 <div className="input-group">
                   <span className="input-group-text bg-light border-end-0">
-                    <i className="bi bi-person text-muted"></i>
+                    <i className="bi bi-envelope text-muted"></i>
                   </span>
                   <input
-                    type="text"
-                    className={`form-control border-start-0 ${errors.nombre ? 'is-invalid' : ''}`}
-                    placeholder="Tu nombre de usuario"
-                    {...register('nombre', { required: 'El usuario es obligatorio' })}
+                    type="email"
+                    className={`form-control border-start-0 ${errors.email ? 'is-invalid' : ''}`}
+                    placeholder="tu@email.com"
+                    {...register('email', { required: 'El email es obligatorio' })}
                   />
                 </div>
-                {errors.nombre && <small className="text-danger">{errors.nombre.message}</small>}
+                {errors.email && <small className="text-danger">{errors.email.message}</small>}
               </div>
 
               <div className="mb-4">
